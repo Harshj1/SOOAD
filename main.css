@@ -50,6 +50,12 @@ aside > h3 {
   padding: 1rem;
 }
 
+#chat-active {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
 #chat-status-msg {
   font-family: sans-serif;
   font-style: italic;
