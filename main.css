@@ -105,7 +105,26 @@ aside > h3 {
   transition: top 0.2s, opacity 0.2s;
 }
 
+#signup-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0,0,0,0.8);
+  font-size: 2em;
+  transition: top 0.2s, opacity 0.2s;
+}
+
 #login-box.hidden {
+  top: -100vh;
+  opacity: 0;
+}
+
+#signup-box.hidden {
   top: -100vh;
   opacity: 0;
 }
@@ -116,12 +135,29 @@ aside > h3 {
   border-radius: 6px;
 }
 
+#signup-box > div {
+  padding: 1em;
+  background: #fff;
+  border-radius: 6px;
+}
+
 #login-box h2 {
+  text-align: center;
+  margin-bottom: 0.5em;
+}
+#signup-box h2 {
   text-align: center;
   margin-bottom: 0.5em;
 }
 
 #login-box input {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  padding: 1rem;
+}
+
+#signup-box input {
   display: block;
   margin-bottom: 0.5rem;
   font-size: 2.5rem;

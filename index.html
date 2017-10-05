@@ -13,11 +13,31 @@
         <div>
           <h2>Login</h2>
           <input type="url" id="server-url" value="http://localhost:3010" />
-          <input type="text" placeholder="enter username" id="username" autofocus />
+          <input type="text" placeholder="enter username" id="lusername" autofocus />
+          <input type="text" placeholder="enter password" id="lpassword" autofocus />
+          <button id="login" onclick="loginfunction()">LogIn</button>
+          <button id="nsignup" onclick="nSignupfunction()">SignUp</button>
         </div>
+      </div>
+      <div id="signup-box" style="display: none;">
+        <div>
+          <h2>SignUp</h2>
+          <input type="url" id="server-url" value="http://localhost:3010" />
+          <input type="text" placeholder="enter username" id="username" autofocus />
+          <input type="text" placeholder="enter password" id="password" autofocus />
+          <button id="nlogin" onclick="nloginfunction()">LogIn</button>
+          <button id="signup" onclick="Signupfunction()">SignUp</button>
+        </div>
+      </div>
+      <div>
+        <h1 id="hello"></h1>
       </div>
       <div class="content">
         <aside>
+          <div id="make-group">
+            <button ></button>
+          </div>
+          <div id="current-user"></div>
           <h3>Connected Users</h3>
           <ul id="users"></ul>
           <div id="user-stats"></div>
@@ -33,5 +53,22 @@
         <button id="send-btn">Send</button>
       </div>
     </main>
+    <script type="text/javascript">
+      
+      function nSignupfunction() {
+        document.getElementById("login-box").style.display="none";
+        document.getElementById("signup-box").style.display="block";
+      }
+
+      function nloginfunction() {
+        document.getElementById("login-box").style.display="block";
+        document.getElementById("signup-box").style.display="none";
+      }
+
+      function Signupfunction() {
+        document.getElementById("signup-box").style.display="none";
+      }
+
+    </script>>
   </body>
 </html>

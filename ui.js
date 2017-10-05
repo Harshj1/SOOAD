@@ -5,8 +5,10 @@ var mongo = require('mongodb').MongoClient;
 
 let socket;
 let username;
+let password;
 let screen="common chat"
-var collection;
+var collection,collection1;
+var flag=0;
 var usersid = {};
 
 window.onload = function () {
@@ -26,6 +28,24 @@ function initSocket() {
     appendText(`Connected to server ${server}`);
     mongo.connect('mongodb://127.0.0.1/message', function (err, db) {
           collection = db.collection('messages')
+          collection1 = db.collection('profile')
+          if(flag==0){
+          collection1.insert({ username:username,password: password }, function (err, o) {
+                if (err) { console.warn(err.message); }
+                else { console.log("user inserted into db"); }
+            });
+          }
+          else
+          {
+            collection1.find({"username":username,"password":password}).toArray(function(err,res){
+              if(res.length)
+                console.log("Success!!");
+              else
+                console.log("Invalid user or password!!");
+                
+            });
+          }
+          $('#hello').innerHTML = "Hello "+ username;
           console.log("HereIam:");
           collection.find( {receiver : "common chat"} ).sort({ _id : -1 }).limit(10).toArray(function(err,res){
                       if(err) throw err;
@@ -48,7 +68,7 @@ function initSocket() {
   // });
   socket.on('message', (data) => {
     console.log(data);
-   if(screen == data.username )
+   if(screen == data.username || screen == "common chat")
       appendText(`__${data.username}:__ ${data.text}`);
   });
   socket.on('login', (data) => {
@@ -57,6 +77,7 @@ function initSocket() {
     console.log(usersid);
     updateUserList(data.users);
   });
+
   socket.on('typing', (data) => {
     //setStatus(`${data.username} is typing...`);
   });
@@ -141,18 +162,46 @@ function initEvents() {
       socket.emit('stop-typing', { username });
     }, 1000);
   });
-  $('#username').addEventListener('keydown', function (e) {
+
+  $('#lpassword').addEventListener('keydown', function (e) {
     if (e.keyCode === 13) {
-      const value = this.value.trim();
-      if (value) {
-        username = this.value;
+      const value1 = this.value.trim();
+      const value = $('#lusername').value.trim();
+      if (value && value1) {
+        username = value;
+        password = value1;
+        flag=1;
         initSocket();
         login();
       }
     }
   });
+
+  $('#password').addEventListener('keydown', function (e) {
+    if (e.keyCode === 13) {
+      const value1 = this.value.trim();
+      const value = $('#username').value.trim();
+      if (value && value1) {
+        username = value;
+        password = value1;
+        initSocket();
+        login();
+      }
+    }
+  });
+
+  // $('#login').addEventListener('click', function (e) {
+  //     const value = this.value.trim();
+  //     if (value) {
+  //       username = this.value;
+  //       initSocket();
+  //       login();
+  //     }
+  // });
+
   $('#send-btn').addEventListener('click', sendText);
   $('#username').focus();
+  $('#password').focus();
 }
 
 function sendText() {
@@ -188,6 +237,8 @@ function updateUserList(users) {
 
 function login() {
   socket.emit('login', { username });
+  
+  $('#signup-box').classList.add('hidden');
   $('#login-box').classList.add('hidden');
   $('#text-input').focus();
 }
