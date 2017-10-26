@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Electron Chat App</title>
     <script type="text/javascript" src="socket.io.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script type="text/javascript" src="ui.js"></script>
     <link rel="stylesheet" type="text/css" href="main.css" />
   </head>
@@ -15,6 +16,8 @@
           <input type="url" id="server-url" value="http://localhost:3010" />
           <input type="text" placeholder="enter username" id="lusername" autofocus />
           <input type="text" placeholder="enter password" id="lpassword" autofocus />
+          <div class="alert alert-danger" id="wrongid" style="display: none;">
+          </div>
           <button id="login" onclick="loginfunction()">LogIn</button>
           <button id="nsignup" onclick="nSignupfunction()">SignUp</button>
         </div>
@@ -35,7 +38,7 @@
       <div class="content">
         <aside>
           <div id="make-group">
-            <button ></button>
+            <button></button>
           </div>
           <div id="current-user"></div>
           <h3>Connected Users</h3>
@@ -57,16 +60,16 @@
       
       function nSignupfunction() {
         document.getElementById("login-box").style.display="none";
-        document.getElementById("signup-box").style.display="block";
+        document.getElementById("signup-box").style.display="flex";
       }
 
       function nloginfunction() {
-        document.getElementById("login-box").style.display="block";
+        document.getElementById("login-box").style.display="flex";
         document.getElementById("signup-box").style.display="none";
       }
 
       function Signupfunction() {
-        document.getElementById("signup-box").style.display="none";
+        document.getElementById("signup-box").style.display="flex";
       }
 
     </script>>

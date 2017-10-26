@@ -35,16 +35,16 @@ function initSocket() {
                 else { console.log("user inserted into db"); }
             });
           }
-          else
-          {
-            collection1.find({"username":username,"password":password}).toArray(function(err,res){
-              if(res.length)
-                console.log("Success!!");
-              else
-                console.log("Invalid user or password!!");
-                
-            });
-          }
+          // else
+          // {
+          //   collection1.find({"username":username,"password":password}).toArray(function(err,res){
+          //     if(res.length)
+          //       console.log("Success!!");
+          //     else
+          //       console.log("Invalid user or password!!");
+          //
+          //   });
+          // }
           $('#hello').innerHTML = "Hello "+ username;
           console.log("HereIam:");
           collection.find( {receiver : "common chat"} ).sort({ _id : -1 }).limit(10).toArray(function(err,res){
@@ -171,8 +171,27 @@ function initEvents() {
         username = value;
         password = value1;
         flag=1;
-        initSocket();
-        login();
+        mongo.connect('mongodb://127.0.0.1/message', function (err, db) {
+            collection = db.collection('messages')
+            collection1 = db.collection('profile')
+            if(flag==1)
+              {
+                collection1.find({"username":username,"password":password}).toArray(function(err,res){
+                  if(res.length)
+                  {
+                    console.log("Success!!");
+                    initSocket();
+                    login();
+                  }
+                  else
+                  {
+                    console.log("Invalid user or password!!");
+                    $('#wrongid').style.display="flex";
+                    $('#wrongid').innerHTML = `Wrong password/id`;
+                  }
+                });
+              }
+        });
       }
     }
   });
@@ -189,15 +208,6 @@ function initEvents() {
       }
     }
   });
-
-  // $('#login').addEventListener('click', function (e) {
-  //     const value = this.value.trim();
-  //     if (value) {
-  //       username = this.value;
-  //       initSocket();
-  //       login();
-  //     }
-  // });
 
   $('#send-btn').addEventListener('click', sendText);
   $('#username').focus();
@@ -232,7 +242,7 @@ function setStatus(text) {
 function updateUserList(users) {
   const opts = { sanitize: true };
   $('#users').innerHTML = Array.from(users).map(name => `<li>${marked(name, opts)}</li>`).join('');
-  $('#user-stats').textContent = `${users.length} users online.`;
+  $('#user-stats').textContent = `${users.length-1} users online.`;
 }
 
 function login() {
