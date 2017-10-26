@@ -30,6 +30,7 @@ function initSocket() {
           collection = db.collection('messages')
           collection1 = db.collection('profile')
           if(flag==0){
+              console.log("HIIII");
           collection1.insert({ username:username,password: password }, function (err, o) {
                 if (err) { console.warn(err.message); }
                 else { console.log("user inserted into db"); }
@@ -196,15 +197,81 @@ function initEvents() {
     }
   });
 
-  $('#password').addEventListener('keydown', function (e) {
-    if (e.keyCode === 13) {
-      const value1 = this.value.trim();
-      const value = $('#username').value.trim();
+  $('#login').addEventListener("click",function (e) {
+      const value1 = $('#lpassword').value.trim();
+      const value = $('#lusername').value.trim();
       if (value && value1) {
         username = value;
         password = value1;
-        initSocket();
-        login();
+        flag=1;
+        mongo.connect('mongodb://127.0.0.1/message', function (err, db) {
+            collection = db.collection('messages')
+            collection1 = db.collection('profile')
+            if(flag==1)
+              {
+                collection1.find({"username":username,"password":password}).toArray(function(err,res){
+                  if(res.length)
+                  {
+                    console.log("Success!!");
+                    initSocket();
+                    login();
+                  }
+                  else
+                  {
+                    console.log("Invalid user or password!!");
+                    $('#wrongid').style.display="flex";
+                    $('#wrongid').innerHTML = `Wrong password/id`;
+                  }
+                });
+              }
+        });
+      }
+  });
+
+  $('#signup').addEventListener("click",function (e) {
+      const value1 = $('#rpassword').value.trim();
+      const value = $('#username').value.trim();
+      const rep = $('#password').value.trim();
+      if (value && value1 && rep) {
+        username = value;
+        password = value1;
+        passwordconfirm = rep;
+        if(passwordconfirm == value1)
+        {
+            console.log("HEEELLLOOO");
+            initSocket();
+            login();
+        }
+        else
+        {
+            console.log("WRONG");
+            $('#wrongpass').style.display="flex";
+            $('#wrongpass').innerHTML = `Wrong password entered`;
+        }
+      }
+  });
+
+  $('#rpassword').addEventListener('keydown', function (e) {
+    if (e.keyCode === 13) {
+      const value1 = this.value.trim();
+      const value = $('#username').value.trim();
+      const rep = $('#password').value.trim();
+      if (value && value1 && rep) {
+        username = value;
+        password = value1;
+        passwordconfirm = rep;
+        if(passwordconfirm == value1)
+        {
+            console.log("HEEELLLOOO")
+            initSocket();
+            login();
+        }
+        else
+        {
+            console.log("WRONG");
+            $('#wrongpass').style.display="flex";
+            $('#wrongpass').innerHTML = `Wrong password entered`;
+        }
       }
     }
   });

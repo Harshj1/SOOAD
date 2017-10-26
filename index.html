@@ -15,10 +15,12 @@
           <h2>Login</h2>
           <input type="url" id="server-url" value="http://localhost:3010" />
           <input type="text" placeholder="enter username" id="lusername" autofocus />
-          <input type="text" placeholder="enter password" id="lpassword" autofocus />
+          <input type="password" placeholder="enter password" id="lpassword" autofocus />
           <div class="alert alert-danger" id="wrongid" style="display: none;">
           </div>
-          <button id="login" onclick="loginfunction()">LogIn</button>
+          <div align="center">
+            <button id="login">LogIn</button>
+          </div>
           <button id="nsignup" onclick="nSignupfunction()">SignUp</button>
         </div>
       </div>
@@ -27,9 +29,14 @@
           <h2>SignUp</h2>
           <input type="url" id="server-url" value="http://localhost:3010" />
           <input type="text" placeholder="enter username" id="username" autofocus />
-          <input type="text" placeholder="enter password" id="password" autofocus />
+          <input type="password" placeholder="enter password" id="password" autofocus />
+          <input type="password" placeholder="enter password again" id="rpassword" autofocus />
+          <div class="alert alert-danger" id="wrongpass" style="display: none;">
+          </div>
+          <div align="center">
+            <button id="signup">SignUp</button>
+          </div>
           <button id="nlogin" onclick="nloginfunction()">LogIn</button>
-          <button id="signup" onclick="Signupfunction()">SignUp</button>
         </div>
       </div>
       <div>
@@ -68,9 +75,9 @@
         document.getElementById("signup-box").style.display="none";
       }
 
-      function Signupfunction() {
-        document.getElementById("signup-box").style.display="flex";
-      }
+//      function Signupfunction() {
+//        document.getElementById("signup-box").style.display="flex";
+//      }
 
     </script>>
   </body>
